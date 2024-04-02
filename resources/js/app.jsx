@@ -1,21 +1,43 @@
-import './bootstrap';
-import '../css/app.css';
+import "./bootstrap";
+import "../css/app.css";
 
-import { createRoot } from 'react-dom/client';
-import { createInertiaApp } from '@inertiajs/react';
-import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
+import { createRoot } from "react-dom/client";
+import { createInertiaApp } from "@inertiajs/react";
+import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
+import { NextUIProvider } from "@nextui-org/react";
+import AppLayout from "@/Layouts/AppLayout";
+import React from "react";
 
-const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+const appName = import.meta.env.VITE_APP_NAME || "Laravel";
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
-    resolve: (name) => resolvePageComponent(`./Pages/${name}.jsx`, import.meta.glob('./Pages/**/*.jsx')),
+    resolve: (name) => {
+        let pages = resolvePageComponent(
+            `./Pages/${name}.jsx`,
+            import.meta.glob("./Pages/**/*.jsx")
+        );
+        pages.then((page) => {
+            page.default.layout =
+                page.default.layout ||
+                ((page) => <AppLayout>{page}</AppLayout>);
+            return page;
+        });
+        return pages;
+    },
     setup({ el, App, props }) {
         const root = createRoot(el);
 
-        root.render(<App {...props} />);
+        root.render(
+            <React.StrictMode>
+                <NextUIProvider>
+                    <App {...props} />
+                </NextUIProvider>
+            </React.StrictMode>
+        );
     },
     progress: {
-        color: '#4B5563',
+        color: "#4B5563",
+        showSpinner: true,
     },
 });

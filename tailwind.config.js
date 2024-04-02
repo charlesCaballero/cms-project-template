@@ -1,22 +1,48 @@
-import defaultTheme from 'tailwindcss/defaultTheme';
-import forms from '@tailwindcss/forms';
+import defaultTheme from "tailwindcss/defaultTheme";
 
 /** @type {import('tailwindcss').Config} */
 export default {
     content: [
-        './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
-        './storage/framework/views/*.php',
-        './resources/views/**/*.blade.php',
-        './resources/js/**/*.jsx',
+        "./vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php",
+        "./storage/framework/views/*.php",
+        "./resources/views/**/*.blade.php",
+        "./resources/js/**/*.jsx",
+        "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
     ],
 
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                sans: ["Figtree", ...defaultTheme.fontFamily.sans],
             },
         },
     },
-
-    plugins: [forms],
+    darkMode: "class",
+    plugins: [
+        nextui({
+            themes: {
+                light: {
+                    // ...
+                    colors: {
+                        primary: { DEFAULT: "#1F51FF", foreground: "#FFF" },
+                        secondary: { DEFAULT: "#FFCD1F", foreground: "#000" },
+                        danger: { DEFAULT: "#FF3131", foreground: "#FFF" },
+                        warning: "#FF5733",
+                        success: "#0FFF50",
+                    },
+                },
+                dark: {
+                    // ...
+                    colors: {
+                        primary: { DEFAULT: "#1F51FF", foreground: "#FFF" },
+                        secondary: { DEFAULT: "#FFCD1F", foreground: "#000" },
+                        danger: "#FF3131",
+                        warning: "#FF5733",
+                        success: "#0FFF50",
+                    },
+                },
+                // ... custom themes
+            },
+        }),
+    ],
 };
