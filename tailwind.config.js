@@ -1,4 +1,5 @@
 import defaultTheme from "tailwindcss/defaultTheme";
+const { nextui } = require("@nextui-org/react");
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -22,7 +23,6 @@ export default {
         nextui({
             themes: {
                 light: {
-                    // ...
                     colors: {
                         primary: { DEFAULT: "#1F51FF", foreground: "#FFF" },
                         secondary: { DEFAULT: "#FFCD1F", foreground: "#000" },
@@ -32,7 +32,6 @@ export default {
                     },
                 },
                 dark: {
-                    // ...
                     colors: {
                         primary: { DEFAULT: "#1F51FF", foreground: "#FFF" },
                         secondary: { DEFAULT: "#FFCD1F", foreground: "#000" },
@@ -41,7 +40,6 @@ export default {
                         success: "#0FFF50",
                     },
                 },
-                // ... custom themes
             },
         }),
     ],
