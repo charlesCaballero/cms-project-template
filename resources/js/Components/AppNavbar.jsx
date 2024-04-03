@@ -84,6 +84,7 @@ const AppNavbar = () => {
                                 key="Theme"
                                 // href={route("profile.edit")}
                                 startContent={<MoonIcon />}
+                                showDivider
                             >
                                 Theme
                             </DropdownItem>
