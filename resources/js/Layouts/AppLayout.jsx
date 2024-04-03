@@ -1,20 +1,26 @@
 import React from "react";
+
 import { usePage } from "@inertiajs/react";
+import AppNavbar from "@/Components/AppNavbar";
 
 const AppLayout = ({ children }) => {
-    const { props, url } = usePage();
+    const { url } = usePage();
     switch (url) {
         // if the url is in login, use LoginLayout
         case "/login":
             return <main>{children}</main>;
 
+        case "/register":
+            return <main>{children}</main>;
+
         // if the url is in login, don't Applayout
         default:
             return (
-                <main>
-                    <div>Appbar</div>
-                    <div>{children}</div>
-                </main>
+                <div className="min-h-screen bg-gray-100">
+                    <AppNavbar />
+
+                    <main>{children}</main>
+                </div>
             );
     }
 };

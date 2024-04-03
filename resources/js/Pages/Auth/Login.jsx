@@ -1,13 +1,11 @@
 import { useEffect } from "react";
-import Checkbox from "@/Components/Checkbox";
-import InputError from "@/Components/InputError";
-import InputLabel from "@/Components/InputLabel";
-import PrimaryButton from "@/Components/PrimaryButton";
-import TextInput from "@/Components/TextInput";
 import { Head, Link, useForm } from "@inertiajs/react";
 import LoginLayout from "@/Layouts/LoginLayout";
+import { Input, Checkbox, Button } from "@nextui-org/react";
+import { MailIcon } from "@/Icons/MailIcon";
+import PasswordInput from "@/Components/PasswordInput";
 
-export default function Login({ status, canResetPassword }) {
+export default function Login({ status }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         email: "",
         password: "",
@@ -38,66 +36,66 @@ export default function Login({ status, canResetPassword }) {
 
             <form onSubmit={submit}>
                 <div>
-                    <InputLabel htmlFor="email" value="Email" />
-
-                    <TextInput
-                        id="email"
+                    <Input
                         type="email"
+                        label="Email"
                         name="email"
+                        id="email"
+                        placeholder="Enter your email"
+                        variant="bordered"
+                        autoComplete="email"
                         value={data.email}
-                        className="mt-1 block w-full"
-                        autoComplete="username"
-                        isFocused={true}
                         onChange={(e) => setData("email", e.target.value)}
+                        color={!!errors.email ? "danger" : "default"}
+                        isInvalid={!!errors.email}
+                        errorMessage={errors.email}
+                        classNames={{
+                            label: "text-black dark:text-white/90 font-bold",
+                            inputWrapper: "border-slate-400",
+                        }}
+                        startContent={<MailIcon />}
                     />
-
-                    <InputError message={errors.email} className="mt-2" />
                 </div>
 
-                <div className="mt-4">
-                    <InputLabel htmlFor="password" value="Password" />
-
-                    <TextInput
-                        id="password"
-                        type="password"
+                <div className="mt-5">
+                    <PasswordInput
                         name="password"
+                        label="Password"
+                        placeholder="Enter your password"
                         value={data.password}
-                        className="mt-1 block w-full"
-                        autoComplete="current-password"
-                        onChange={(e) => setData("password", e.target.value)}
+                        setValue={(val) => setData("password", val)}
+                        error={errors.password}
                     />
-
-                    <InputError message={errors.password} className="mt-2" />
                 </div>
 
                 <div className="block mt-4">
-                    <label className="flex items-center">
-                        <Checkbox
-                            name="remember"
-                            checked={data.remember}
-                            onChange={(e) =>
-                                setData("remember", e.target.checked)
-                            }
-                        />
-                        <span className="ms-2 text-sm text-gray-600">
-                            Remember me
-                        </span>
-                    </label>
+                    <Checkbox
+                        defaultSelected
+                        name="remember"
+                        checked={data.remember}
+                        onChange={(e) => setData("remember", e.target.checked)}
+                        size="sm"
+                    >
+                        Remember me
+                    </Checkbox>
                 </div>
 
                 <div className="flex items-center justify-end mt-4">
-                    {canResetPassword && (
-                        <Link
-                            href={route("password.request")}
-                            className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                        >
-                            Forgot your password?
-                        </Link>
-                    )}
+                    <Link
+                        href={route("register")}
+                        className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    >
+                        Not yet registered?
+                    </Link>
 
-                    <PrimaryButton className="ms-4" disabled={processing}>
+                    <Button
+                        className="ms-4"
+                        color="primary"
+                        isLoading={processing}
+                        type="submit"
+                    >
                         Log in
-                    </PrimaryButton>
+                    </Button>
                 </div>
             </form>
         </LoginLayout>

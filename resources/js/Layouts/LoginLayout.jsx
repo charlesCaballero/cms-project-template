@@ -1,9 +1,7 @@
 import { Card, CardBody, CardHeader, Image } from "@nextui-org/react";
+import { asset } from "@/utils";
 
 const appName = import.meta.env.VITE_APP_NAME || "Laravel";
-const asset = (path) => {
-    return `/storage/images/${path}`;
-};
 
 export default function LoginLayout({ children }) {
     return (
