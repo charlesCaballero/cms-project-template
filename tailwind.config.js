@@ -33,6 +33,8 @@ export default {
                 },
                 dark: {
                     colors: {
+                        background: "#1E293B",
+                        foreground: "#F8FAFC",
                         primary: { DEFAULT: "#1F51FF", foreground: "#FFF" },
                         secondary: { DEFAULT: "#FFCD1F", foreground: "#000" },
                         danger: "#FF3131",

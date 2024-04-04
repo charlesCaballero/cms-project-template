@@ -3,7 +3,7 @@ import { Head } from "@inertiajs/react";
 export default function Dashboard() {
     return (
         <>
-            <Head title="Dashboard" />
+            <Head title="Home" />
 
             <div>
                 <div className="max-w-7xl mx-auto">

@@ -1,9 +1,9 @@
-import React from "react";
-import { Listbox, ListboxItem, Card } from "@nextui-org/react";
+import React, { useEffect, useState } from "react";
+import { Listbox, ListboxItem } from "@nextui-org/react";
 import { HomeIcon } from "@/Icons/HomeIcon";
 import { FolderIcon } from "@/Icons/FolderIcon";
 import { UsersIcon } from "@/Icons/UsersIcon";
-import { IconWrapper } from "./IconWrapper";
+import { usePage } from "@inertiajs/react";
 
 const SidebarNav = () => {
     const items = [
@@ -26,32 +26,34 @@ const SidebarNav = () => {
             color: "bg-neutral-200 text-neutral-800 ",
         },
     ];
+    const { component } = usePage();
+
     return (
-        <Card
-            shadow="none"
-            className="flex-none w-56 self-stretch rounded pl-2 py-2"
-        >
+        <div className="flex-none w-56 self-stretch rounded-none p-2 border-r-1 border-slate-400/20">
             <Listbox
                 items={items}
                 aria-label="User Menu"
                 onAction={(key) => alert(key)}
                 className="p-0 gap-4"
                 itemClasses={{
-                    base: "h-12 rounded-xl data-[hover=true]:bg-teal-400/40",
+                    base: "h-12 rounded-xl data-[hover=true]:bg-teal-400/40 dark:data-[hover=true]:bg-indigo-400/40",
                 }}
             >
                 {(item) => (
                     <ListboxItem
                         key={item.key}
                         color={item.key === "delete" ? "danger" : "default"}
-                        className="px-4 my-1"
+                        className={`px-4 my-1 ${
+                            component.startsWith(item.label) &&
+                            "bg-teal-400/40 dark:bg-indigo-400/40"
+                        }`}
                         startContent={item.icon}
                     >
                         {item.label}
                     </ListboxItem>
                 )}
             </Listbox>
-        </Card>
+        </div>
     );
 };
 

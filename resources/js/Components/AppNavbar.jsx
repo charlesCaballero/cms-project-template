@@ -22,10 +22,12 @@ import { CaretDownIcon } from "@/Icons/CaretDownIcon";
 import BellIcon from "@/Icons/BellIcon";
 import SunIcon from "@/Icons/SunIcon";
 import { MoonIcon } from "@/Icons/MoonIcon";
+import useDarkMode from "use-dark-mode";
 
 const AppNavbar = () => {
-    const { auth } = usePage().props;
+    const { props, url } = usePage();
     const { post } = useForm();
+    const darkMode = useDarkMode(false);
 
     const submit = (e) => {
         e.preventDefault();
@@ -33,7 +35,7 @@ const AppNavbar = () => {
     };
 
     return (
-        <Navbar maxWidth="full" isBordered>
+        <Navbar maxWidth="full" isBordered classNames={{ wrapper: "px-4" }}>
             <NavbarBrand>
                 {/* Change this section into your logo */}
                 <Image
@@ -44,7 +46,9 @@ const AppNavbar = () => {
                 <Spacer x="2" />
                 <div className="hidden sm:flex text-xl font-bold ">
                     Argus
-                    <span className="text-teal-500 text-2xl font-black">X</span>
+                    <span className="text-teal-500 dark:text-indigo-500 text-2xl font-black">
+                        X
+                    </span>
                     Codes
                 </div>
             </NavbarBrand>
@@ -57,8 +61,8 @@ const AppNavbar = () => {
                                 className="inline-flex items-center rounded-md bg-transparent"
                             >
                                 <User
-                                    name={auth?.user?.name}
-                                    description={auth?.user?.email}
+                                    name={props.auth?.user?.name}
+                                    description={props.auth?.user?.email}
                                     avatarProps={{
                                         showFallback: true,
                                         fallback: <UserIcon />,
@@ -72,6 +76,7 @@ const AppNavbar = () => {
                                 key="profile"
                                 href={route("profile.edit")}
                                 startContent={<UserIdIcon />}
+                                description="Update personal information and photo"
                             >
                                 Profile
                             </DropdownItem>
@@ -79,13 +84,27 @@ const AppNavbar = () => {
                                 key="notification"
                                 // href={route("profile.edit")}
                                 startContent={<BellIcon />}
+                                description="Show reminders and updates"
                             >
                                 Notifications
                             </DropdownItem>
                             <DropdownItem
                                 key="Theme"
                                 // href={route("profile.edit")}
-                                startContent={<MoonIcon />}
+                                startContent={
+                                    darkMode.value ? <SunIcon /> : <MoonIcon />
+                                }
+                                description={
+                                    darkMode.value
+                                        ? "Change to light mode"
+                                        : "Change to dark mode"
+                                }
+                                onClick={
+                                    darkMode.value
+                                        ? darkMode.disable
+                                        : darkMode.enable
+                                }
+                                showDivider
                             >
                                 Theme
                             </DropdownItem>
