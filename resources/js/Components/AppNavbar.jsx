@@ -14,6 +14,7 @@ import {
     NavbarContent,
     NavbarItem,
     Navbar,
+    Spacer,
 } from "@nextui-org/react";
 import { LogoutIcon } from "@/Icons/LogoutIcon";
 import { UserIdIcon } from "@/Icons/UserIdIcon";
@@ -32,7 +33,7 @@ const AppNavbar = () => {
     };
 
     return (
-        <Navbar maxWidth="full">
+        <Navbar maxWidth="full" isBordered>
             <NavbarBrand>
                 {/* Change this section into your logo */}
                 <Image
@@ -40,9 +41,10 @@ const AppNavbar = () => {
                     alt="App logo"
                     src={asset("charles-logo.png")}
                 />
-                <div className="hidden sm:flex text-xl font-bold text-slate-800">
+                <Spacer x="2" />
+                <div className="hidden sm:flex text-xl font-bold ">
                     Argus
-                    <span className="text-primary text-2xl font-black">X</span>
+                    <span className="text-teal-500 text-2xl font-black">X</span>
                     Codes
                 </div>
             </NavbarBrand>
@@ -52,7 +54,7 @@ const AppNavbar = () => {
                         <DropdownTrigger>
                             <Button
                                 disableAnimation
-                                className="inline-flex items-center rounded-md bg-white"
+                                className="inline-flex items-center rounded-md bg-transparent"
                             >
                                 <User
                                     name={auth?.user?.name}
@@ -84,7 +86,6 @@ const AppNavbar = () => {
                                 key="Theme"
                                 // href={route("profile.edit")}
                                 startContent={<MoonIcon />}
-                                showDivider
                             >
                                 Theme
                             </DropdownItem>
