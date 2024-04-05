@@ -1,3 +1,4 @@
+/* npm install -D tailwindcss@latest postcss@latest autoprefixer@latest */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

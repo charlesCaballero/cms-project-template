@@ -7,29 +7,28 @@ import useDarkMode from "use-dark-mode";
 
 const AppLayout = ({ children }) => {
     // const navbarHeight = "4rem"; // this is the default navbar height in nextui
-    const { url } = usePage();
+    const { component } = usePage();
     const darkMode = useDarkMode(false);
-    switch (url) {
+    switch (component) {
         // if the url is in login, use LoginLayout
-        case "/login":
+        case "Auth/Login":
             return <main>{children}</main>;
 
-        case "/register":
+        case "Auth/Register":
             return <main>{children}</main>;
 
         // if the url is in login, don't Applayout
         default:
             return (
                 <main
-                    className={`${
+                    className={`
+                    ${
                         darkMode.value ? "dark" : ""
                     } text-foreground bg-background h-screen overflow-y-hidden`}
                 >
                     <AppNavbar />
-
                     <div className={`flex h-[calc(100vh-4rem)] items-stretch`}>
                         {/* Side Navbar */}
-
                         <SidebarNav />
                         <div className="flex-1 self-stretch p-6">
                             {children}
