@@ -24,7 +24,7 @@ export default {
             themes: {
                 light: {
                     colors: {
-                        primary: { DEFAULT: "#1F51FF", foreground: "#FFF" },
+                        primary: { DEFAULT: "#14B8A6", foreground: "#FFF" },
                         secondary: { DEFAULT: "#FFCD1F", foreground: "#000" },
                         danger: { DEFAULT: "#FF3131", foreground: "#FFF" },
                         warning: "#FF5733",
@@ -35,7 +35,7 @@ export default {
                     colors: {
                         background: "#1E293B",
                         foreground: "#F8FAFC",
-                        primary: { DEFAULT: "#1F51FF", foreground: "#FFF" },
+                        primary: { DEFAULT: "#7C3AED", foreground: "#FFF" },
                         secondary: { DEFAULT: "#FFCD1F", foreground: "#000" },
                         danger: "#FF3131",
                         warning: "#FF5733",

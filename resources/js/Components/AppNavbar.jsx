@@ -22,17 +22,19 @@ import { CaretDownIcon } from "@/Icons/CaretDownIcon";
 import BellIcon from "@/Icons/BellIcon";
 import SunIcon from "@/Icons/SunIcon";
 import { MoonIcon } from "@/Icons/MoonIcon";
-import useDarkMode from "use-dark-mode";
+import { useTheme } from "@/ThemeProvider";
 
 const AppNavbar = () => {
     const { props, url } = usePage();
     const { post } = useForm();
-    const darkMode = useDarkMode(false);
 
     const submit = (e) => {
         e.preventDefault();
         post(route("logout"));
     };
+
+    const theme = useTheme().theme;
+    const toggleTheme = useTheme().toggleTheme;
 
     return (
         <Navbar maxWidth="full" isBordered classNames={{ wrapper: "px-4" }}>
@@ -92,18 +94,19 @@ const AppNavbar = () => {
                                 key="Theme"
                                 // href={route("profile.edit")}
                                 startContent={
-                                    darkMode.value ? <SunIcon /> : <MoonIcon />
+                                    theme === "light" ? (
+                                        <SunIcon />
+                                    ) : (
+                                        <MoonIcon />
+                                    )
+                                    // <SunIcon />
                                 }
                                 description={
-                                    darkMode.value
+                                    theme === "dark"
                                         ? "Change to light mode"
                                         : "Change to dark mode"
                                 }
-                                onClick={
-                                    darkMode.value
-                                        ? darkMode.disable
-                                        : darkMode.enable
-                                }
+                                onClick={() => toggleTheme()}
                                 showDivider
                             >
                                 Theme

@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { Listbox, ListboxItem } from "@nextui-org/react";
+import React from "react";
+import { Listbox, ListboxItem, Button } from "@nextui-org/react";
 import { HomeIcon } from "@/Icons/HomeIcon";
 import { FolderIcon } from "@/Icons/FolderIcon";
 import { UsersIcon } from "@/Icons/UsersIcon";
 import { usePage } from "@inertiajs/react";
+import { ArrowLeftIcon } from "@/Icons/ArrowLeftIcon";
 
 const SidebarNav = () => {
+    const { component } = usePage();
+    const [collapse, setCollapse] = React.useState(false);
     const items = [
         {
             key: "home",
@@ -26,10 +29,24 @@ const SidebarNav = () => {
             color: "bg-neutral-200 text-neutral-800 ",
         },
     ];
-    const { component } = usePage();
 
     return (
-        <div className="flex-none w-56 self-stretch rounded-none p-2 border-r-1 border-slate-400/20">
+        <div
+            className={`flex-none ${
+                collapse ? "w-20" : "w-64"
+            } self-stretch rounded-none p-2 border-r-1 border-slate-400/20`}
+        >
+            <div className="text-right my-3">
+                <Button
+                    size="md"
+                    radius="lg"
+                    color="primary"
+                    isIconOnly
+                    onClick={() => setCollapse(!collapse)}
+                >
+                    <ArrowLeftIcon />
+                </Button>
+            </div>
             <Listbox
                 items={items}
                 aria-label="User Menu"
