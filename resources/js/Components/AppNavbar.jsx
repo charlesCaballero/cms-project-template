@@ -30,7 +30,7 @@ const AppNavbar = () => {
 
     const submit = (e) => {
         e.preventDefault();
-        post(route("logout"));
+        post(route("logout"), { replace: true });
     };
 
     const theme = useTheme().theme;

@@ -1,75 +1,102 @@
-import React from "react";
-import { Listbox, ListboxItem, Button } from "@nextui-org/react";
+import { useState, useCallback, useEffect } from "react";
+import { Button } from "@nextui-org/react";
 import { HomeIcon } from "@/Icons/HomeIcon";
 import { FolderIcon } from "@/Icons/FolderIcon";
 import { UsersIcon } from "@/Icons/UsersIcon";
-import { usePage } from "@inertiajs/react";
-import { ArrowLeftIcon } from "@/Icons/ArrowLeftIcon";
+import { ArrowRightIcon } from "@/Icons/ArrowRightIcon";
+import SidebarMenu from "./SidebarMenu";
+
+const items = [
+    {
+        key: "home",
+        label: "Home",
+        icon: (w, h) => <HomeIcon width={w} height={h} />,
+        color: "bg-neutral-200 text-neutral-800",
+    },
+    {
+        key: "reports",
+        label: "Reports",
+        icon: (w, h) => <FolderIcon width={w} height={h} />,
+        // icon: <FolderIcon />,
+        color: "bg-neutral-200 text-neutral-800",
+    },
+    {
+        key: "users",
+        label: "Users",
+        icon: (w, h) => <UsersIcon width={w} height={h} />,
+        // icon: <UsersIcon />,
+        color: "bg-neutral-200 text-neutral-800 ",
+    },
+];
 
 const SidebarNav = () => {
-    const { component } = usePage();
-    const [collapse, setCollapse] = React.useState(false);
-    const items = [
-        {
-            key: "home",
-            label: "Home",
-            icon: <HomeIcon />,
-            color: "bg-neutral-200 text-neutral-800",
-        },
-        {
-            key: "reports",
-            label: "Reports",
-            icon: <FolderIcon />,
-            color: "bg-neutral-200 text-neutral-800",
-        },
-        {
-            key: "users",
-            label: "Users",
-            icon: <UsersIcon />,
-            color: "bg-neutral-200 text-neutral-800 ",
-        },
-    ];
+    const [sidebarView, setSidebarView] = useState(() => {
+        const initialState = localStorage.getItem("sidebarview");
+        return initialState ? initialState : "show";
+    });
+
+    const getSidebarViewFromLocalStorage = () => {
+        const savedState = localStorage.getItem("sidebarview");
+        if (savedState) {
+            console.log("savedState:" + savedState);
+            setSidebarView(savedState);
+        }
+    };
+
+    const toggleSidebarView = useCallback(() => {
+        setSidebarView((prevTheme) => {
+            const newState = prevTheme === "show" ? "collapse" : "show";
+            localStorage.setItem("sidebarview", newState);
+            return newState;
+        });
+    }, [sidebarView]);
+
+    useEffect(() => {
+        getSidebarViewFromLocalStorage();
+    }, [sidebarView]);
 
     return (
         <div
-            className={`flex-none ${
-                collapse ? "w-20" : "w-64"
-            } self-stretch rounded-none p-2 border-r-1 border-slate-400/20`}
+            className={`
+                flex-none 
+                ${sidebarView === "collapse" ? "w-20" : "w-64"} 
+                self-stretch 
+                rounded-none 
+                p-2 
+                border-r-1 
+                border-slate-400/20
+                transition-all delay-150 duration-300 overflow-hidden
+            `}
         >
-            <div className="text-right my-3">
-                <Button
-                    size="md"
-                    radius="lg"
-                    color="primary"
-                    isIconOnly
-                    onClick={() => setCollapse(!collapse)}
-                >
-                    <ArrowLeftIcon />
-                </Button>
-            </div>
-            <Listbox
-                items={items}
-                aria-label="User Menu"
-                onAction={(key) => alert(key)}
-                className="p-0 gap-4"
-                itemClasses={{
-                    base: "h-12 rounded-xl data-[hover=true]:bg-teal-400/40 dark:data-[hover=true]:bg-indigo-400/40",
-                }}
-            >
-                {(item) => (
-                    <ListboxItem
-                        key={item.key}
-                        color={item.key === "delete" ? "danger" : "default"}
-                        className={`px-4 my-1 ${
-                            component.startsWith(item.label) &&
-                            "bg-teal-400/40 dark:bg-indigo-400/40"
-                        }`}
-                        startContent={item.icon}
+            <div className="flex flex-col h-full">
+                <div className="flex-grow">
+                    <SidebarMenu items={items} sidebarView={sidebarView} />
+                </div>
+                <div className="text-right my-3">
+                    <Button
+                        size="md"
+                        radius="lg"
+                        color="primary"
+                        isIconOnly
+                        onClick={() => toggleSidebarView()}
                     >
-                        {item.label}
-                    </ListboxItem>
-                )}
-            </Listbox>
+                        {
+                            <ArrowRightIcon
+                                className={`
+                                    ${
+                                        sidebarView !== "collapse" &&
+                                        "-rotate-180"
+                                    } 
+                                    transition-all 
+                                    transform
+                                    `}
+                                width="20px"
+                                height="20px"
+                            />
+                        }
+                    </Button>
+                </div>
+            </div>
         </div>
     );
 };

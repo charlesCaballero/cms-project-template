@@ -35,7 +35,7 @@ export default {
                     colors: {
                         background: "#1E293B",
                         foreground: "#F8FAFC",
-                        primary: { DEFAULT: "#7C3AED", foreground: "#FFF" },
+                        primary: { DEFAULT: "#6366F1", foreground: "#FFF" },
                         secondary: { DEFAULT: "#FFCD1F", foreground: "#000" },
                         danger: "#FF3131",
                         warning: "#FF5733",

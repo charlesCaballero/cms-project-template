@@ -4,15 +4,34 @@ import {
     useState,
     useCallback,
     useMemo,
+    useEffect,
 } from "react";
 
 export const ThemeContext = createContext("dark", () => {});
 
 const ThemeProvider = ({ children }) => {
-    const [theme, setTheme] = useState("dark");
+    const [theme, setTheme] = useState(() => {
+        const initialTheme = localStorage.getItem("theme");
+        return initialTheme ? initialTheme : "light";
+    });
+
+    const getThemeFromLocalStorage = () => {
+        const savedTheme = localStorage.getItem("theme");
+        if (savedTheme) {
+            setTheme(savedTheme);
+        }
+    };
 
     const toggleTheme = useCallback(() => {
-        setTheme(theme === "light" ? "dark" : "light");
+        setTheme((prevTheme) => {
+            const newTheme = prevTheme === "light" ? "dark" : "light";
+            localStorage.setItem("theme", newTheme);
+            return newTheme;
+        });
+    }, [theme]);
+
+    useEffect(() => {
+        getThemeFromLocalStorage();
     }, [theme]);
 
     const contextValue = useMemo(

@@ -21,7 +21,7 @@ export default function Login({ status }) {
     const submit = (e) => {
         e.preventDefault();
 
-        post(route("login"));
+        post(route("login"), { replace: true });
     };
 
     return (
