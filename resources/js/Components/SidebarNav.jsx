@@ -1,8 +1,8 @@
 import { useState, useCallback, useEffect } from "react";
 import { Button } from "@nextui-org/react";
-import { HomeIcon } from "@/Icons/HomeIcon";
-import { FolderIcon } from "@/Icons/FolderIcon";
-import { UsersIcon } from "@/Icons/UsersIcon";
+import { HomeIcon } from "@/Icons/SidebarIcons/HomeIcon";
+import { FolderIcon } from "@/Icons/SidebarIcons/FolderIcon";
+import { UsersIcon } from "@/Icons/SidebarIcons/UsersIcon";
 import { ArrowRightIcon } from "@/Icons/ArrowRightIcon";
 import SidebarMenu from "./SidebarMenu";
 
@@ -11,49 +11,39 @@ const items = [
         key: "home",
         label: "Home",
         icon: (w, h) => <HomeIcon width={w} height={h} />,
-        color: "bg-neutral-200 text-neutral-800",
+        url: "/",
     },
     {
         key: "reports",
         label: "Reports",
         icon: (w, h) => <FolderIcon width={w} height={h} />,
-        // icon: <FolderIcon />,
-        color: "bg-neutral-200 text-neutral-800",
+        url: "/reports",
     },
     {
         key: "users",
         label: "Users",
         icon: (w, h) => <UsersIcon width={w} height={h} />,
-        // icon: <UsersIcon />,
-        color: "bg-neutral-200 text-neutral-800 ",
+        url: "/users",
     },
 ];
 
 const SidebarNav = () => {
     const [sidebarView, setSidebarView] = useState(() => {
-        const initialState = localStorage.getItem("sidebarview");
-        return initialState ? initialState : "show";
+        return localStorage.getItem("sidebarview") || "show";
     });
 
-    const getSidebarViewFromLocalStorage = () => {
-        const savedState = localStorage.getItem("sidebarview");
-        if (savedState) {
-            console.log("savedState:" + savedState);
-            setSidebarView(savedState);
-        }
-    };
-
     const toggleSidebarView = useCallback(() => {
-        setSidebarView((prevTheme) => {
-            const newState = prevTheme === "show" ? "collapse" : "show";
-            localStorage.setItem("sidebarview", newState);
-            return newState;
-        });
+        const newSidebarView = sidebarView === "show" ? "collapse" : "show";
+        setSidebarView(newSidebarView);
+        localStorage.setItem("sidebarview", newSidebarView);
     }, [sidebarView]);
 
     useEffect(() => {
-        getSidebarViewFromLocalStorage();
-    }, [sidebarView]);
+        const savedSidebarView = localStorage.getItem("sidebarview");
+        if (savedSidebarView) {
+            setSidebarView(savedSidebarView);
+        }
+    }, []);
 
     return (
         <div
@@ -65,7 +55,10 @@ const SidebarNav = () => {
                 p-2 
                 border-r-1 
                 border-slate-400/20
-                transition-all delay-150 duration-300 overflow-hidden
+                transition-all 
+                delay-150 
+                duration-100 
+                overflow-hidden
             `}
         >
             <div className="flex flex-col h-full">
@@ -78,22 +71,17 @@ const SidebarNav = () => {
                         radius="lg"
                         color="primary"
                         isIconOnly
-                        onClick={() => toggleSidebarView()}
+                        onClick={toggleSidebarView}
                     >
-                        {
-                            <ArrowRightIcon
-                                className={`
-                                    ${
-                                        sidebarView !== "collapse" &&
-                                        "-rotate-180"
-                                    } 
-                                    transition-all 
-                                    transform
-                                    `}
-                                width="20px"
-                                height="20px"
-                            />
-                        }
+                        <ArrowRightIcon
+                            className={`
+                                ${sidebarView !== "collapse" && "-rotate-180"} 
+                                transition-all 
+                                transform
+                            `}
+                            width="20px"
+                            height="20px"
+                        />
                     </Button>
                 </div>
             </div>

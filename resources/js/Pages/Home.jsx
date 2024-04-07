@@ -2,7 +2,7 @@ import { Head } from "@inertiajs/react";
 
 export default function Dashboard() {
     return (
-        <>
+        <div>
             <Head title="Home" />
 
             <div>
@@ -14,6 +14,6 @@ export default function Dashboard() {
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     );
 }

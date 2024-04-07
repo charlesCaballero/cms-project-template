@@ -9,6 +9,14 @@ Route::get('/', function () {
     return Inertia::render('Home');
 })->middleware(['auth', 'verified'])->name('home');
 
+Route::get('/reports', function () {
+    return Inertia::render('Reports');
+})->middleware(['auth', 'verified'])->name('reports');
+
+Route::get('/users', function () {
+    return Inertia::render('Users');
+})->middleware(['auth', 'verified'])->name('users');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

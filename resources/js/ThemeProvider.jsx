@@ -1,4 +1,4 @@
-import {
+import React, {
     useContext,
     createContext,
     useState,
@@ -7,20 +7,13 @@ import {
     useEffect,
 } from "react";
 
-export const ThemeContext = createContext("dark", () => {});
+export const ThemeContext = createContext({});
 
 const ThemeProvider = ({ children }) => {
     const [theme, setTheme] = useState(() => {
         const initialTheme = localStorage.getItem("theme");
-        return initialTheme ? initialTheme : "light";
+        return initialTheme || "light";
     });
-
-    const getThemeFromLocalStorage = () => {
-        const savedTheme = localStorage.getItem("theme");
-        if (savedTheme) {
-            setTheme(savedTheme);
-        }
-    };
 
     const toggleTheme = useCallback(() => {
         setTheme((prevTheme) => {
@@ -28,19 +21,19 @@ const ThemeProvider = ({ children }) => {
             localStorage.setItem("theme", newTheme);
             return newTheme;
         });
-    }, [theme]);
-
-    useEffect(() => {
-        getThemeFromLocalStorage();
-    }, [theme]);
+    }, []);
 
     const contextValue = useMemo(
-        () => ({
-            theme,
-            toggleTheme,
-        }),
+        () => ({ theme, toggleTheme }),
         [theme, toggleTheme]
     );
+
+    useEffect(() => {
+        const savedTheme = localStorage.getItem("theme");
+        if (savedTheme && savedTheme !== theme) {
+            setTheme(savedTheme);
+        }
+    }, []);
 
     return (
         <ThemeContext.Provider value={contextValue}>
@@ -48,10 +41,12 @@ const ThemeProvider = ({ children }) => {
         </ThemeContext.Provider>
     );
 };
-//The custom hook
+
 export const useTheme = () => {
     const value = useContext(ThemeContext);
-    if (value === undefined) throw new Error("Context is undefined");
+    if (!value) {
+        throw new Error("useTheme must be used within a ThemeProvider");
+    }
     return value;
 };
 

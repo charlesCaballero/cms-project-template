@@ -1,3 +1,4 @@
+import React from "react";
 export const MoonIcon = () => (
     <svg
         width="20px"
@@ -20,3 +21,4 @@ export const MoonIcon = () => (
         />
     </svg>
 );
+export default MoonIcon;

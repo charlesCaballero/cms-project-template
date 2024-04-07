@@ -1,10 +1,9 @@
 import React from "react";
 
-export const FolderIcon = () => {
+export const FolderIcon = (props) => {
     return (
         <svg
-            width="20px"
-            height="20px"
+            {...props}
             viewBox="0 0 24 24"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
