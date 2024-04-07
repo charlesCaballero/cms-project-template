@@ -39,7 +39,7 @@ const Logo = () => {
     );
 };
 
-const ThemeToggleIcon = ({ toggleTheme }) => {
+const ThemeToggleIcon = () => {
     const theme = useTheme().theme;
 
     return useMemo(
@@ -112,11 +112,7 @@ const AppNavbar = () => {
                                 <DropdownItem
                                     key="Theme"
                                     // href={route("profile.edit")}
-                                    startContent={
-                                        <ThemeToggleIcon
-                                            toggleTheme={toggleTheme}
-                                        />
-                                    }
+                                    startContent={<ThemeToggleIcon />}
                                     description={
                                         props.auth && props.auth.user
                                             ? theme === "dark"

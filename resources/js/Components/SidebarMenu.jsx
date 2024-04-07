@@ -1,5 +1,5 @@
 import { Button, Tooltip } from "@nextui-org/react";
-import { Link, usePage } from "@inertiajs/react";
+import { usePage, router } from "@inertiajs/react";
 import React from "react";
 
 const SidebarMenu = ({ items, sidebarView }) => {
@@ -18,11 +18,6 @@ const SidebarMenu = ({ items, sidebarView }) => {
                     color="default"
                     radius="sm"
                 >
-                    {/* <Link
-                        href={route(item.key)}
-                        className="w-full"
-                        only={[item.key]}
-                    > */}
                     <Button
                         fullWidth
                         size="lg"
@@ -37,20 +32,19 @@ const SidebarMenu = ({ items, sidebarView }) => {
                             sidebarView !== "collapse" && "justify-start w-auto"
                         } text-foreground gap-5 w-full transition-all delay-200 duration-300`}
                         disabled={component.startsWith(item.label)}
-                        onClick={() => route(item.key)}
+                        onClick={() => router.visit(item.url)}
                     >
                         {
                             <p
                                 className={`${
                                     sidebarView !== "collapse" &&
                                     "w-auto opacity-100"
-                                } text-lg w-0 opacity-0 transition-opacity delay-300 duration-300 `}
+                                } text-lg w-0 opacity-0 transition-opacity delay-300 duration-50 `}
                             >
                                 {item.label}
                             </p>
                         }
                     </Button>
-                    {/* </Link> */}
                 </Tooltip>
             ))}
         </div>
