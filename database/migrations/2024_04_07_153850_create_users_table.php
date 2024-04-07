@@ -11,10 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::disableForeignKeyConstraints();
+
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
+            $table->bigInteger('hris_id')->unique();
+            $table->text('user_id')->unique()->nullable();
+            $table->text('first_name');
+            $table->text('middle_name');
+            $table->text('last_name');
+            $table->text('email');
+            $table->bigInteger('position');
+            $table->bigInteger('contact_no');
+            $table->bigInteger('pro_code')->default(15);
+            $table->text('employment_status');
+            $table->bigInteger('office_id');
+            $table->foreign('office_id')->references('id')->on('office_divisions');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
@@ -35,6 +47,8 @@ return new class extends Migration
             $table->longText('payload');
             $table->integer('last_activity')->index();
         });
+
+        Schema::enableForeignKeyConstraints();
     }
 
     /**

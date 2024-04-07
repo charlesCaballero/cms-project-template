@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import GuestLayout from "@/Layouts/LoginLayout";
+import LoginLayout from "@/Layouts/LoginLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 import { Button, Input } from "@nextui-org/react";
 import { PersonIcon } from "@/Icons/PersonIcon";
@@ -8,7 +8,15 @@ import PasswordInput from "@/Components/PasswordInput";
 
 export default function Register() {
     const { data, setData, post, processing, errors, reset } = useForm({
-        name: "",
+        hris_id: "",
+        user_id: "",
+        first_name: "",
+        middle_name: "",
+        last_name: "",
+        position: "",
+        contact_no: "",
+        employment_status: "",
+        office_id: "",
         email: "",
         password: "",
         password_confirmation: "",
@@ -27,7 +35,7 @@ export default function Register() {
     };
 
     return (
-        <GuestLayout>
+        <LoginLayout>
             <Head title="Register" />
 
             <form onSubmit={submit}>
@@ -117,6 +125,6 @@ export default function Register() {
                     </Button>
                 </div>
             </form>
-        </GuestLayout>
+        </LoginLayout>
     );
 }
