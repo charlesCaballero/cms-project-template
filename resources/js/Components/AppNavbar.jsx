@@ -83,7 +83,7 @@ const AppNavbar = () => {
                                 >
                                     <User
                                         name={props.auth?.user?.name}
-                                        description={props.auth?.user?.email}
+                                        description={props.auth?.user?.position}
                                         avatarProps={{
                                             showFallback: true,
                                             fallback: <UserIcon />,

@@ -9,12 +9,9 @@ const AppLayout = ({ children }) => {
     const { component } = usePage();
     const theme = useTheme().theme;
 
-    switch (component) {
-        // if the url is in login, use LoginLayout
-        case "Auth/Login":
-            return <main>{children}</main>;
-
-        case "Auth/Register":
+    switch (component.startsWith("Auth/")) {
+        // if the component is in login, use LoginLayout
+        case true:
             return <main>{children}</main>;
 
         default:

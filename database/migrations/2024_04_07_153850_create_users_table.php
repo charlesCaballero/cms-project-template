@@ -16,16 +16,16 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('hris_id')->unique();
-            $table->text('user_id')->unique()->nullable();
+            $table->text('user_id')->unique();
             $table->text('first_name');
-            $table->text('middle_name');
+            $table->text('middle_name')->nullable();
             $table->text('last_name');
             $table->text('email');
-            $table->bigInteger('position');
-            $table->bigInteger('contact_no');
+            $table->text('position');
+            $table->text('contact_no');
             $table->bigInteger('pro_code')->default(15);
             $table->text('employment_status');
-            $table->bigInteger('office_id');
+            $table->bigInteger('office_id')->nullable();
             $table->foreign('office_id')->references('id')->on('office_divisions');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

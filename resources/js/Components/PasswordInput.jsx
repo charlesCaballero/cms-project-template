@@ -47,6 +47,7 @@ export default function PasswordInput({
                     )}
                 </button>
             }
+            isRequired
         />
     );
 }

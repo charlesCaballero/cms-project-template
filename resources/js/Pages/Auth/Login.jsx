@@ -1,13 +1,13 @@
 import { useEffect } from "react";
 import { Head, Link, useForm } from "@inertiajs/react";
-import LoginLayout from "@/Layouts/LoginLayout";
+import LoginLayout from "@/Layouts/AuthLayout";
 import { Input, Checkbox, Button } from "@nextui-org/react";
-import { MailIcon } from "@/Icons/MailIcon";
 import PasswordInput from "@/Components/PasswordInput";
+import { UserIdIcon } from "@/Icons/UserIdIcon";
 
 export default function Login({ status }) {
     const { data, setData, post, processing, errors, reset } = useForm({
-        email: "",
+        id: "",
         password: "",
         remember: false,
     });
@@ -37,23 +37,23 @@ export default function Login({ status }) {
             <form onSubmit={submit}>
                 <div>
                     <Input
-                        type="email"
-                        label="Email"
-                        name="email"
-                        id="email"
-                        placeholder="Enter your email"
+                        label="HRIS ID or User ID"
+                        name="id"
+                        id="id"
+                        placeholder="Enter your HRIS ID or User ID"
                         variant="bordered"
-                        autoComplete="email"
-                        value={data.email}
-                        onChange={(e) => setData("email", e.target.value)}
-                        color={!!errors.email ? "danger" : "default"}
-                        isInvalid={!!errors.email}
-                        errorMessage={errors.email}
+                        autoComplete="id"
+                        value={data.id}
+                        onChange={(e) => setData("id", e.target.value)}
+                        color={!!errors.id ? "danger" : "default"}
+                        isInvalid={!!errors.id}
+                        errorMessage={errors.id}
                         classNames={{
                             label: "text-black dark:text-white/90 font-bold",
                             inputWrapper: "border-slate-400",
                         }}
-                        startContent={<MailIcon />}
+                        startContent={<UserIdIcon />}
+                        isRequired
                     />
                 </div>
 

@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use App\Models\User;
+
 
 class LoginRequest extends FormRequest
 {
@@ -27,7 +29,7 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'string', 'email'],
+            'id' => ['required', 'string'],
             'password' => ['required', 'string'],
         ];
     }
@@ -41,15 +43,37 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
-            RateLimiter::hit($this->throttleKey());
+        $credentials = $this->only('password');
+        $remember = $this->boolean('remember');
 
-            throw ValidationException::withMessages([
-                'email' => trans('auth.failed'),
-            ]);
+        // Attempt login by user_id
+        $user = User::where('user_id', $this->input('id'))->first();
+
+        // If user is not found by user_id, attempt login by hris_id
+        if (!$user) {
+            $user = User::where('hris_id', $this->input('id'))->first();
         }
 
-        RateLimiter::clear($this->throttleKey());
+        // if (!Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+        //     RateLimiter::hit($this->throttleKey());
+
+        //     throw ValidationException::withMessages([
+        //         'email' => trans('auth.failed'),
+        //     ]);
+        // }
+
+        // If user is found and password matches, attempt login
+        if ($user && Auth::attempt(['id' => $user->id, 'password' => $credentials['password']], $remember)) {
+            RateLimiter::clear($this->throttleKey());
+            return;
+        }
+
+        // If user is not found or password doesn't match, throw validation exception
+        RateLimiter::hit($this->throttleKey());
+
+        throw ValidationException::withMessages([
+            'user_id' => trans('auth.failed'),
+        ]);
     }
 
     /**
@@ -59,7 +83,7 @@ class LoginRequest extends FormRequest
      */
     public function ensureIsNotRateLimited(): void
     {
-        if (! RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
+        if (!RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
             return;
         }
 
@@ -80,6 +104,6 @@ class LoginRequest extends FormRequest
      */
     public function throttleKey(): string
     {
-        return Str::transliterate(Str::lower($this->string('email')).'|'.$this->ip());
+        return Str::transliterate(Str::lower($this->string('email')) . '|' . $this->ip());
     }
 }

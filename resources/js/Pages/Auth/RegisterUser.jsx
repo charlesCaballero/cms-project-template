@@ -1,12 +1,12 @@
 import { useEffect } from "react";
-import LoginLayout from "@/Layouts/LoginLayout";
+import LoginLayout from "@/Layouts/AuthLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 import { Button, Input } from "@nextui-org/react";
 import { PersonIcon } from "@/Icons/PersonIcon";
 import { MailIcon } from "@/Icons/MailIcon";
 import PasswordInput from "@/Components/PasswordInput";
 
-export default function Register() {
+export default function RegisterUser() {
     const { data, setData, post, processing, errors, reset } = useForm({
         hris_id: "",
         user_id: "",

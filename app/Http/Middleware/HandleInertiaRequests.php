@@ -29,10 +29,20 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $username = function (string $fname, string $mname, string $lname) {
+            $middle_initial = $mname ? ucfirst($mname)[0] . "." : "";
+            return ucfirst($fname) . " " . $middle_initial . " " . ucfirst($lname);
+        };
+
         return [
             ...parent::share($request),
             'auth' => [
-                'user' => $request->user(),
+                'user' => $request->user() !== null ? [
+                    'name' => $username($request->user()->first_name, $request->user()->middle_name, $request->user()->last_name),
+                    'email' => $request->user()->email,
+                    'position' => $request->user()->position,
+                    // 'office'=> $office,
+                ] : null
             ],
         ];
     }

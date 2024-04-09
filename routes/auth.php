@@ -4,7 +4,9 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\Auth\RegisterAdminController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\CheckForExistingUsers;
 // use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 // use App\Http\Controllers\Auth\EmailVerificationPromptController;
 // use App\Http\Controllers\Auth\NewPasswordController;
@@ -20,9 +22,14 @@ Route::middleware('guest')->group(function () {
     Route::post('login', [AuthenticatedSessionController::class, 'store']);
 
     Route::get('register', [RegisteredUserController::class, 'create'])
-        ->name('register');
+        ->name('register')->middleware(CheckForExistingUsers::class);
 
-    Route::post('register', [RegisteredUserController::class, 'store']);
+    Route::post('register', [RegisteredUserController::class, 'store'])->middleware(CheckForExistingUsers::class);
+
+    Route::get('register/admin', [RegisterAdminController::class, 'create'])
+        ->name('register.admin')->middleware(CheckForExistingUsers::class);
+
+    Route::post('register/admin', [RegisterAdminController::class, 'store'])->middleware(CheckForExistingUsers::class);
 
     // Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
     //             ->name('password.request');
