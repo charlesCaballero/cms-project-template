@@ -49,7 +49,7 @@ const SidebarNav = () => {
         <div
             className={`
                 flex-none 
-                ${sidebarView === "collapse" ? "w-20" : "w-64"} 
+                ${sidebarView === "collapse" ? "w-16" : "w-60"} 
                 self-stretch 
                 rounded-none 
                 p-2 

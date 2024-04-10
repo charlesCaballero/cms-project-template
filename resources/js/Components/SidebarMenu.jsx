@@ -26,7 +26,7 @@ const SidebarMenu = ({ items, sidebarView }) => {
                             component.startsWith(item.label) ? "flat" : "light"
                         }
                         color={"primary"}
-                        startContent={item.icon("25px", "25px")}
+                        startContent={item.icon("20px", "20px")}
                         isIconOnly={sidebarView === "collapse" ? true : false}
                         className={`${
                             sidebarView !== "collapse" && "justify-start w-auto"
@@ -39,7 +39,7 @@ const SidebarMenu = ({ items, sidebarView }) => {
                                 className={`${
                                     sidebarView !== "collapse" &&
                                     "w-auto opacity-100"
-                                } text-lg w-0 opacity-0 transition-opacity delay-300 duration-50 `}
+                                } text-sm w-0 opacity-0 transition-opacity delay-300 duration-50 `}
                             >
                                 {item.label}
                             </p>

@@ -23,7 +23,7 @@ const AppLayout = ({ children }) => {
                     <div className={`flex h-[calc(100vh-4rem)] items-stretch`}>
                         {/* Side Navbar */}
                         <SidebarNav />
-                        <div className="flex-1 self-stretch p-6">
+                        <div className="flex-1 self-stretch p-10 bg-slate-300/10">
                             {children}
                         </div>
                     </div>

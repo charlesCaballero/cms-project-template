@@ -17,12 +17,12 @@ import {
 } from "@nextui-org/react";
 import { useTheme } from "@/ThemeProvider";
 import { LogoutIcon } from "@/Icons/LogoutIcon";
-import { UserIdIcon } from "@/Icons/UserIdIcon";
+import { UserIdIcon } from "@/Icons/InputIcons/UserIdIcon";
 import { CaretDownIcon } from "@/Icons/CaretDownIcon";
 import BellIcon from "@/Icons/BellIcon";
 import SunIcon from "@/Icons/SunIcon";
 import MoonIcon from "@/Icons/MoonIcon";
-import { UserIcon } from "@/Icons/UserIcon";
+import { UserIcon } from "@/Icons/InputIcons/UserIcon";
 
 const Logo = () => {
     return useMemo(

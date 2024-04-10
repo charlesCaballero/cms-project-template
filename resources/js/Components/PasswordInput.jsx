@@ -1,8 +1,8 @@
 import React from "react";
 import { Input } from "@nextui-org/react";
-import { LockIcon } from "@/Icons/LockIcon";
-import { EyeSlashFilledIcon } from "@/Icons/EyeSlashFilledIcon";
-import { EyeFilledIcon } from "@/Icons/EyeFilledIcon";
+import { LockIcon } from "@/Icons/InputIcons/LockIcon";
+import { EyeSlashFilledIcon } from "@/Icons/InputIcons/EyeSlashFilledIcon";
+import { EyeFilledIcon } from "@/Icons/InputIcons/EyeFilledIcon";
 
 export default function PasswordInput({
     label,

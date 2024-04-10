@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\RegisterAdminController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\CheckForExistingUsers;
+use App\Http\Middleware\CheckForAdminRegistration;
 // use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 // use App\Http\Controllers\Auth\EmailVerificationPromptController;
 // use App\Http\Controllers\Auth\NewPasswordController;
@@ -15,22 +16,20 @@ use App\Http\Middleware\CheckForExistingUsers;
 
 Route::middleware('guest')->group(function () {
 
-
-    Route::get('login', [AuthenticatedSessionController::class, 'create'])
+    Route::get('login', [AuthenticatedSessionController::class, 'create'])->middleware(CheckForAdminRegistration::class)
         ->name('login');
 
-    Route::post('login', [AuthenticatedSessionController::class, 'store']);
+    Route::post('login', [AuthenticatedSessionController::class, 'store'])->middleware(CheckForAdminRegistration::class);
 
-    Route::get('register', [RegisteredUserController::class, 'create'])
-        ->name('register')->middleware(CheckForExistingUsers::class);
+    Route::get('register', [RegisteredUserController::class, 'create'])->middleware(CheckForExistingUsers::class)
+        ->name('register');
 
     Route::post('register', [RegisteredUserController::class, 'store'])->middleware(CheckForExistingUsers::class);
 
-    Route::get('register/admin', [RegisterAdminController::class, 'create'])
-        ->name('register.admin')->middleware(CheckForExistingUsers::class);
+    Route::get('register/admin', [RegisterAdminController::class, 'create'])->middleware(CheckForExistingUsers::class)
+        ->name('register.admin');
 
     Route::post('register/admin', [RegisterAdminController::class, 'store'])->middleware(CheckForExistingUsers::class);
-
     // Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
     //             ->name('password.request');
 

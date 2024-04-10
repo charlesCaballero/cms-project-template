@@ -8,7 +8,7 @@ import {
     AutocompleteItem,
 } from "@nextui-org/react";
 import { PersonIcon } from "@/Icons/PersonIcon";
-import { MailIcon } from "@/Icons/MailIcon";
+import { MailIcon } from "@/Icons/InputIcons/MailIcon";
 import PasswordInput from "@/Components/PasswordInput";
 
 const employmentStatus = [
@@ -106,7 +106,7 @@ export default function RegisterAdmin() {
                         }}
                         isClearable={false}
                         className="min-w-64"
-                        menuTrigger="manual"
+                        menuTrigger="input"
                         onInputChange={(value) =>
                             setData("employment_status", value)
                         }
@@ -116,12 +116,7 @@ export default function RegisterAdmin() {
                         isRequired
                     >
                         {(empstat) => (
-                            <AutocompleteItem
-                                key={empstat.value}
-                                onClick={() =>
-                                    setData("employment_status", empstat.value)
-                                }
-                            >
+                            <AutocompleteItem key={empstat.value}>
                                 {empstat.label}
                             </AutocompleteItem>
                         )}

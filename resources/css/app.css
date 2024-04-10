@@ -4,5 +4,5 @@
 @tailwind utilities;
 
 [data-slot="base"] > [data-slot="input-wrapper"] {
-    @apply border-neutral-400;
+    @apply border-neutral-500;
 }

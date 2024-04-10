@@ -50,17 +50,9 @@ class LoginRequest extends FormRequest
         $user = User::where('user_id', $this->input('id'))->first();
 
         // If user is not found by user_id, attempt login by hris_id
-        if (!$user) {
+        if (!$user  && ctype_digit($this->input('id'))) {
             $user = User::where('hris_id', $this->input('id'))->first();
         }
-
-        // if (!Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
-        //     RateLimiter::hit($this->throttleKey());
-
-        //     throw ValidationException::withMessages([
-        //         'email' => trans('auth.failed'),
-        //     ]);
-        // }
 
         // If user is found and password matches, attempt login
         if ($user && Auth::attempt(['id' => $user->id, 'password' => $credentials['password']], $remember)) {
@@ -72,7 +64,7 @@ class LoginRequest extends FormRequest
         RateLimiter::hit($this->throttleKey());
 
         throw ValidationException::withMessages([
-            'user_id' => trans('auth.failed'),
+            'message' => trans('auth.failed'),
         ]);
     }
 

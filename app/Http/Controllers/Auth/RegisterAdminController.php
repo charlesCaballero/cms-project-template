@@ -53,7 +53,7 @@ class RegisterAdminController extends Controller
             'employment_status' => $request->employment_status,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-        ]);
+        ])->assignRole('super-admin');
 
 
         event(new Registered($user));

@@ -3,7 +3,7 @@ import LoginLayout from "@/Layouts/AuthLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 import { Button, Input } from "@nextui-org/react";
 import { PersonIcon } from "@/Icons/PersonIcon";
-import { MailIcon } from "@/Icons/MailIcon";
+import { MailIcon } from "@/Icons/InputIcons/MailIcon";
 import PasswordInput from "@/Components/PasswordInput";
 
 export default function RegisterUser() {

@@ -3,7 +3,8 @@ import { Head, Link, useForm } from "@inertiajs/react";
 import LoginLayout from "@/Layouts/AuthLayout";
 import { Input, Checkbox, Button } from "@nextui-org/react";
 import PasswordInput from "@/Components/PasswordInput";
-import { UserIdIcon } from "@/Icons/UserIdIcon";
+import Alert from "@/Components/Alert";
+import { UserIdIcon } from "@/Icons/InputIcons/UserIdIcon";
 
 export default function Login({ status }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -20,7 +21,7 @@ export default function Login({ status }) {
 
     const submit = (e) => {
         e.preventDefault();
-
+        errors.message = null;
         post(route("login"), { replace: true });
     };
 
@@ -34,6 +35,15 @@ export default function Login({ status }) {
                 </div>
             )}
 
+            {errors.message && (
+                <Alert
+                    title="Login failed."
+                    type="error"
+                    message={errors.message}
+                    variant={"flat"}
+                />
+            )}
+
             <form onSubmit={submit}>
                 <div>
                     <Input
@@ -45,9 +55,8 @@ export default function Login({ status }) {
                         autoComplete="id"
                         value={data.id}
                         onChange={(e) => setData("id", e.target.value)}
-                        color={!!errors.id ? "danger" : "default"}
-                        isInvalid={!!errors.id}
-                        errorMessage={errors.id}
+                        // color={!!errors.message ? "danger" : "default"}
+                        // isInvalid={!!errors.message}
                         classNames={{
                             label: "text-black dark:text-white/90 font-bold",
                             inputWrapper: "border-slate-400",
@@ -70,7 +79,7 @@ export default function Login({ status }) {
 
                 <div className="block mt-4">
                     <Checkbox
-                        defaultSelected
+                        defaultValue={data.remember}
                         name="remember"
                         checked={data.remember}
                         onChange={(e) => setData("remember", e.target.checked)}
