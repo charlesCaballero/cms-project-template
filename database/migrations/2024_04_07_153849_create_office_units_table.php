@@ -11,18 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::disableForeignKeyConstraints();
-
         Schema::create('office_units', function (Blueprint $table) {
             $table->id();
-            $table->text('name');
-            $table->text('location')->nullable();
-            $table->text('acronym')->nullable();
-            $table->bigInteger('section_id')->nullable();
-            $table->foreign('section_id')->references('id')->on('office_sections');
+            $table->string('name');
+            $table->string('location')->nullable();
+            $table->string('acronym')->nullable();
+            $table->foreignId('section_id')->nullable()->constrained('office_sections');
+            $table->string('code')->unique();
+            $table->timestamps();
         });
-
-        Schema::enableForeignKeyConstraints();
     }
 
     /**
