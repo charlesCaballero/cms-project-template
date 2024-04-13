@@ -86,6 +86,7 @@ const AppNavbar = () => {
                                         description={props.auth?.user?.position}
                                         avatarProps={{
                                             showFallback: true,
+                                            src: asset("avatar1.jpg"),
                                             fallback: <UserIcon />,
                                         }}
                                     />

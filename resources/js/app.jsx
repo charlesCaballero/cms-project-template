@@ -8,6 +8,7 @@ import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 import { NextUIProvider } from "@nextui-org/react";
 import AppLayout from "@/Layouts/AppLayout";
 import ThemeProvider from "./ThemeProvider";
+import { SidebarViewStateProvider } from "@/SidebarViewStateProvider";
 
 const appName = import.meta.env.VITE_APP_NAME || "Laravel";
 
@@ -33,7 +34,9 @@ createInertiaApp({
             <React.StrictMode>
                 <NextUIProvider>
                     <ThemeProvider>
-                        <App {...props} />
+                        <SidebarViewStateProvider>
+                            <App {...props} />
+                        </SidebarViewStateProvider>
                     </ThemeProvider>
                 </NextUIProvider>
             </React.StrictMode>

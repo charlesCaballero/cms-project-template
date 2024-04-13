@@ -1,10 +1,10 @@
-import { useState, useCallback, useEffect } from "react";
 import { Button } from "@nextui-org/react";
 import { HomeIcon } from "@/Icons/SidebarIcons/HomeIcon";
 import { FolderIcon } from "@/Icons/SidebarIcons/FolderIcon";
 import { UsersIcon } from "@/Icons/SidebarIcons/UsersIcon";
 import { ArrowRightIcon } from "@/Icons/ArrowRightIcon";
 import SidebarMenu from "./SidebarMenu";
+import { useSidebarViewState } from "@/SidebarViewStateProvider";
 
 const items = [
     {
@@ -28,40 +28,27 @@ const items = [
 ];
 
 const SidebarNav = () => {
-    const [sidebarView, setSidebarView] = useState(() => {
-        return localStorage.getItem("sidebarview") || "show";
-    });
-
-    const toggleSidebarView = useCallback(() => {
-        const newSidebarView = sidebarView === "show" ? "collapse" : "show";
-        setSidebarView(newSidebarView);
-        localStorage.setItem("sidebarview", newSidebarView);
-    }, [sidebarView]);
-
-    useEffect(() => {
-        const savedSidebarView = localStorage.getItem("sidebarview");
-        if (savedSidebarView) {
-            setSidebarView(savedSidebarView);
-        }
-    }, []);
+    const { sidebarView, toggleSidebarView } = useSidebarViewState();
 
     return (
         <div
             className={`
                 flex-none 
-                ${sidebarView === "collapse" ? "w-16" : "w-60"} 
-                self-stretch 
+                ${sidebarView === "collapse" ? "w-16" : "w-52"} 
                 rounded-none 
                 p-2 
                 border-r-1 
-                border-slate-400/20
+                border-slate-400/30
                 transition-all 
                 delay-150 
                 duration-100 
                 overflow-hidden
+                h-[calc(100vh-4rem)]
+                fixed
+                left-0 top-[4rem]
             `}
         >
-            <div className="flex flex-col h-full">
+            <div className="flex flex-col justify-between h-full">
                 <div className="flex-grow">
                     <SidebarMenu items={items} sidebarView={sidebarView} />
                 </div>

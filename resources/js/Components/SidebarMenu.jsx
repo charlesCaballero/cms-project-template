@@ -39,7 +39,7 @@ const SidebarMenu = ({ items, sidebarView }) => {
                                 className={`${
                                     sidebarView !== "collapse" &&
                                     "w-auto opacity-100"
-                                } text-sm w-0 opacity-0 transition-opacity delay-300 duration-50 `}
+                                } text-sm w-0 opacity-0 transition-all delay-300 duration-150 `}
                             >
                                 {item.label}
                             </p>

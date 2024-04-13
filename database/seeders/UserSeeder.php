@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Faker\Factory as Faker;
+use App\Models\User; // Adjust the namespace if needed
 
 class UserSeeder extends Seeder
 {
@@ -20,22 +21,21 @@ class UserSeeder extends Seeder
         // Create an instance of Faker
         $faker = Faker::create();
 
-        // Retrieve all office codes from office-related tables
-        $officeCodes = DB::table('office_divisions')->pluck('code')
-            ->merge(DB::table('office_sections')->pluck('code'))
-            ->merge(DB::table('office_units')->pluck('code'))
-            ->unique();
+        // Retrieve all office IDs
+        $officeIds = DB::table('offices')->pluck('id');
 
         // Define the number of users you want to seed
         $numberOfUsers = 150;
 
         // Loop to create and insert dummy users
         for ($i = 0; $i < $numberOfUsers; $i++) {
-            // Generate a random office code from the retrieved codes
-            $officeCode = $faker->randomElement($officeCodes);
+            // Generate a random office ID from the retrieved IDs
+            $officeId = $faker->randomElement($officeIds);
+            // Generate a random 8-digit hris_id containing only numbers
+            $hrisId = $faker->numberBetween(10000000, 99999999);
 
-            DB::table('users')->insert([
-                'hris_id' => $faker->unique()->randomNumber(),
+            $user = User::create([
+                'hris_id' => $hrisId,
                 'user_id' => $faker->unique()->uuid,
                 'first_name' => $faker->firstName,
                 'middle_name' => $faker->optional()->firstName,
@@ -45,13 +45,13 @@ class UserSeeder extends Seeder
                 'contact_no' => $faker->phoneNumber,
                 'pro_code' => 15, // Default value
                 'employment_status' => $faker->randomElement(['regular', 'casual', 'contractual']),
-                'office_code' => $officeCode, // Use the randomly selected office code
+                'office_id' => $officeId, // Use the randomly selected office ID
                 'email_verified_at' => now(),
                 'password' => Hash::make('password'), // Default password for all users
                 'remember_token' => Str::random(10),
-                'created_at' => now(),
-                'updated_at' => now(),
             ]);
+            // Assign roles
+            $user->syncRoles("user");
         }
     }
 }
