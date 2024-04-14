@@ -50,7 +50,7 @@ class RegisterAdminController extends Controller
             'last_name' => $request->last_name,
             'position' => $request->position,
             'contact_no' => $request->contact_no,
-            'employment_status' => $request->employment_status,
+            'employment_status' => strtolower($request->employment_status),
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ])->assignRole('super-admin');

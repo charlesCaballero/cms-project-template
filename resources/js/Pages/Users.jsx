@@ -1,10 +1,12 @@
-import React from "react";
-import { Button, Input } from "@nextui-org/react";
+import { useState } from "react";
+import { Input } from "@nextui-org/react";
 import { Head } from "@inertiajs/react";
 import { SearchIcon } from "@/Icons/SearchIcon";
 import DataTable from "@/Components/DataTable";
+import RegisterUser from "@/Components/Users/RegisterUser";
 
 const Users = () => {
+    const [searchKey, setSearchKey] = useState("");
     return (
         <div>
             <Head title="Users" />
@@ -16,17 +18,20 @@ const Users = () => {
                         name="user-search"
                         variant="bordered"
                         placeholder="Search user"
-                        endContent={<SearchIcon />}
+                        startContent={<SearchIcon />}
                         className="w-60"
                         classNames={{
                             inputWrapper: "dark:border-white/50",
                         }}
+                        value={searchKey}
+                        onValueChange={setSearchKey}
+                        isClearable
                     />
-                    <Button color="primary">Add new user</Button>
+                    <RegisterUser />
                 </div>
             </div>
             {/* Table of users */}
-            <DataTable />
+            <DataTable searchKey={searchKey} />
         </div>
     );
 };

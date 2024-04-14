@@ -21,6 +21,7 @@
     },
     "dependencies": {
         "@nextui-org/react": "^2.2.10",
-        "framer-motion": "^11.0.24"
+        "framer-motion": "^11.0.24",
+        "lodash": "^4.17.21"
     }
 }

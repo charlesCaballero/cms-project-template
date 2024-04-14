@@ -28,7 +28,11 @@ class UsersController extends Controller
 
         // Apply search filter if search key is provided
         if ($searchKey) {
-            $query->where('name', 'like', "%$searchKey%");
+            $query->where(function ($query) use ($searchKey) {
+                $query->where('first_name', 'like', "%$searchKey%")
+                    ->orWhere('last_name', 'like', "%$searchKey%")
+                    ->orWhere('hris_id', 'like', "%$searchKey%");
+            });
         }
 
         // Apply sorting
@@ -43,8 +47,8 @@ class UsersController extends Controller
             'last_name',
             'position',
             'employment_status',
-            // 'avatar',
-            // 'account_status',
+            'avatar',
+            'account_status',
         ); // Add other columns as needed
 
         // Paginate the results

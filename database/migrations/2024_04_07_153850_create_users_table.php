@@ -27,6 +27,8 @@ return new class extends Migration
             $table->text('employment_status');
             $table->bigInteger('office_id')->nullable();
             $table->foreign('office_id')->references('id')->on('offices');
+            $table->string('account_status')->default('active');
+            $table->string('avatar')->nullable(); // Changed to string type
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

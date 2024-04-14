@@ -1,30 +1,14 @@
 import { useEffect } from "react";
 import LoginLayout from "@/Layouts/AuthLayout";
-import { Head, Link, useForm } from "@inertiajs/react";
+import { Head, useForm } from "@inertiajs/react";
 import {
     Button,
     Input,
     Autocomplete,
     AutocompleteItem,
 } from "@nextui-org/react";
-import { PersonIcon } from "@/Icons/PersonIcon";
-import { MailIcon } from "@/Icons/InputIcons/MailIcon";
 import PasswordInput from "@/Components/PasswordInput";
-
-const employmentStatus = [
-    {
-        label: "Regular",
-        value: "regular",
-    },
-    {
-        label: "Casual",
-        value: "casual",
-    },
-    {
-        label: "Job order/Contactual",
-        value: "contractual",
-    },
-];
+import { employmentStatus } from "@/utils";
 
 export default function RegisterAdmin() {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -107,13 +91,14 @@ export default function RegisterAdmin() {
                         isClearable={false}
                         className="min-w-64"
                         menuTrigger="input"
-                        onInputChange={(value) =>
-                            setData("employment_status", value)
-                        }
-                        onSelectionChange={(key) => {
-                            setData("employment_status", key);
+                        onInputChange={(value) => {
+                            console.log("value: " + value);
+                            setData("employment_status", value);
                         }}
+                        onKeyDown={(e) => e.continuePropagation()} //to stop console error: console.js:213 stopPropagation is now the default behavior for events in React Spectrum. You can use continuePropagation() to revert this behavior.
                         isRequired
+                        isInvalid={!!errors.employment_status}
+                        errorMessage={errors.employment_status}
                     >
                         {(empstat) => (
                             <AutocompleteItem key={empstat.value}>

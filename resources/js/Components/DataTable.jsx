@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import {
     Table,
     TableHeader,
@@ -19,6 +19,8 @@ import { router, usePage } from "@inertiajs/react";
 import { InfoIcon } from "@/Icons/TableIcons/InfoIcon";
 import { DeleteIcon } from "@/Icons/TableIcons/DeleteIcon";
 import { EditIcon } from "@/Icons/TableIcons/EditIcon";
+import debounce from "lodash/debounce";
+import { asset } from "@/utils";
 
 const columns = [
     { name: "NAME", uid: "name" },
@@ -39,9 +41,11 @@ const tabledDefaults = {
     search_key: "",
 };
 
-const DataTable = () => {
+const DataTable = ({ searchKey }) => {
     const { users } = usePage().props;
-    const storedTableOptions = JSON.parse(localStorage.getItem("tableOptions"));
+    const storedTableOptions = JSON.parse(
+        sessionStorage.getItem("tableOptions")
+    );
     const [loadingState, setLoadingState] = useState("idle");
     const [selectedKeys, setSelectedKeys] = useState(new Set([]));
     const [sortDescriptor, setSortDescriptor] = useState({
@@ -52,8 +56,25 @@ const DataTable = () => {
         storedTableOptions || tabledDefaults
     );
 
+    // Watch for changes in searchKey prop and apply the changes to requestData using lodash throttle/debounce
     useEffect(() => {
-        localStorage.setItem("tableOptions", JSON.stringify(requestData));
+        const debounceSearch = debounce(() => {
+            console.log("searchKey: " + searchKey);
+            setRequestData((prevState) => ({
+                ...prevState,
+                search_key: searchKey,
+            }));
+        }, 1000);
+
+        debounceSearch();
+
+        return () => {
+            debounceSearch.cancel(); // Cancel the throttle/debounce when component unmounts
+        };
+    }, [searchKey, setRequestData]);
+
+    useEffect(() => {
+        sessionStorage.setItem("tableOptions", JSON.stringify(requestData));
         fetchUsers();
     }, [requestData]);
 
@@ -70,8 +91,8 @@ const DataTable = () => {
         });
     };
 
-    const renderCell = React.useCallback((user, columnKey) => {
-        const cellValue = user[columnKey];
+    const renderCell = useCallback((user, columnKey) => {
+        const cellValue = user["id"];
 
         switch (columnKey) {
             case "name":
@@ -82,7 +103,9 @@ const DataTable = () => {
                     <User
                         avatarProps={{
                             radius: "lg",
-                            src: "https://i.pravatar.cc/150?u=a042581f4e29026024d",
+                            fallback:
+                                "https://i.pravatar.cc/150?u=a042581f4e29026024d",
+                            src: asset("avatar1.jpg"),
                         }}
                         description={user.hris_id}
                         name={
@@ -100,7 +123,8 @@ const DataTable = () => {
                             {user.position}
                         </p>
                         <p className="text-bold text-sm capitalize text-default-400">
-                            {user.employment_status}
+                            {user.employment_status.charAt(0).toUpperCase() +
+                                user.employment_status.slice(1)}
                         </p>
                     </div>
                 );
@@ -112,7 +136,8 @@ const DataTable = () => {
                         size="sm"
                         variant="flat"
                     >
-                        {"Active"}
+                        {user.account_status.charAt(0).toUpperCase() +
+                            user.account_status.slice(1)}
                     </Chip>
                 );
             case "actions":
