@@ -6,6 +6,7 @@ import { EyeFilledIcon } from "@/Icons/InputIcons/EyeFilledIcon";
 
 export default function PasswordInput({
     label,
+    labelPlacement,
     name,
     error,
     placeholder,
@@ -22,6 +23,7 @@ export default function PasswordInput({
             id={name}
             type={isVisible ? "text" : "password"}
             label={label}
+            labelPlacement={labelPlacement}
             placeholder={placeholder}
             variant="bordered"
             value={value}

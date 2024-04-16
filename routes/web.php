@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Foundation\Application;
@@ -35,6 +36,7 @@ Route::middleware('auth')->group(function () {
             // ... other route names
         ]
     ]);
+    Route::resource('offices', OfficeController::class);
 });
 
 require __DIR__ . '/auth.php';

@@ -80,6 +80,7 @@ const DataTable = ({ searchKey }) => {
 
     const fetchUsers = () => {
         router.get("users/", requestData, {
+            only: ["users"],
             preserveState: true,
             preserveScroll: true,
             onStart: () => {

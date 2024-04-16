@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class UsersController extends Controller
 {
@@ -54,8 +55,8 @@ class UsersController extends Controller
         // Paginate the results
         $users = $query->paginate($perPage, ['*'], 'page', $currentPage);
 
-        return inertia('Users', [
-            'users' => $users
+        return Inertia::render('Users', [
+            'users' => $users,
         ]);
     }
 
