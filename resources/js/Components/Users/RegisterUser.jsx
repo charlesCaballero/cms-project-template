@@ -17,11 +17,12 @@ import { useForm } from "@inertiajs/react";
 import { useTheme } from "@/ThemeProvider";
 import PasswordInput from "@/Components/PasswordInput";
 import { employmentStatus } from "@/utils";
+import Alert from "../Alert";
 
 export default function RegisterUser() {
     const [offices, setOffices] = useState([]);
     const [roles, setRoles] = useState([]);
-    const { isOpen, onOpen, onOpenChange } = useDisclosure();
+    const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
     const theme = useTheme().theme;
     const { data, setData, post, processing, errors, reset } = useForm({
         hris_id: "",
@@ -33,6 +34,7 @@ export default function RegisterUser() {
         contact_no: "",
         employment_status: "",
         office_id: "",
+        role: "",
         email: "",
         password: "",
         password_confirmation: "",
@@ -46,7 +48,7 @@ export default function RegisterUser() {
 
     // Get list of offices
     useEffect(() => {
-        fetch("offices/")
+        fetch(route("registration.get.offices&roles"))
             .then((response) => {
                 if (!response.ok) {
                     throw new Error("Failed to fetch offices");
@@ -56,6 +58,7 @@ export default function RegisterUser() {
             .then((data) => {
                 // console.log("data: " + JSON.stringify(data));
                 setOffices(data.offices);
+                setRoles(data.roles);
             })
             .catch((error) => {
                 console.error("Error fetching offices: " + error.message);
@@ -65,7 +68,12 @@ export default function RegisterUser() {
     const submit = (e) => {
         e.preventDefault();
 
-        post(route("register.admin"));
+        // fetch(route("register"),{method:"POST", body: JSON.stringify(data)});
+        post(route("register"), {
+            onSuccess: () => {
+                onClose();
+            },
+        });
     };
 
     return (
@@ -76,17 +84,24 @@ export default function RegisterUser() {
             <Modal
                 isOpen={isOpen}
                 onOpenChange={onOpenChange}
-                placement="top-center"
-                className={`${theme} `}
+                className={`${theme} inset-y-10`}
                 size="lg"
             >
                 <ModalContent>
                     {(onClose) => (
                         <form onSubmit={submit}>
                             <ModalHeader className="text-foreground flex flex-col gap-1">
-                                Add new user
+                                <h2>Add new user</h2>
                             </ModalHeader>
                             <ModalBody className="text-foreground flex flex- gap-4">
+                                <Alert
+                                    type={"info"}
+                                    variant={"flat"}
+                                    message={
+                                        "The user will be added to the system with the provided details. Make sure to fill out all the required fields before submitting the form."
+                                    }
+                                    isCloseable={false}
+                                />
                                 <div className="flex gap-4">
                                     <Input
                                         name="hris_id"
@@ -149,7 +164,6 @@ export default function RegisterUser() {
                                         isClearable={false}
                                         menuTrigger="input"
                                         onInputChange={(value) => {
-                                            console.log("value: " + value);
                                             setData("employment_status", value);
                                         }}
                                         onKeyDown={(e) =>
@@ -202,6 +216,14 @@ export default function RegisterUser() {
                                             label: "text-black text-default-400 font-bold",
                                             trigger: "border-neutral-500",
                                         }}
+                                        isInvalid={!!errors.office_id}
+                                        errorMessage={errors.office_id}
+                                        onSelectionChange={(keys) => {
+                                            setData(
+                                                "office_id",
+                                                keys.currentKey
+                                            );
+                                        }}
                                         isRequired
                                     >
                                         {offices.map((office) => (
@@ -221,12 +243,17 @@ export default function RegisterUser() {
                                             label: "text-black text-default-400 font-bold",
                                             trigger: "border-neutral-500",
                                         }}
+                                        isInvalid={!!errors.role}
+                                        errorMessage={errors.role}
+                                        onSelectionChange={(keys) => {
+                                            setData("role", keys.currentKey);
+                                        }}
                                         isRequired
                                     >
                                         {roles.map((role) => (
                                             <SelectItem
-                                                key={role.id}
-                                                value={role.id}
+                                                key={role.name}
+                                                value={role.name}
                                             >
                                                 {role.name
                                                     .charAt(0)

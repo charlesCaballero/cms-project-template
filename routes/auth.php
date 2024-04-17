@@ -21,10 +21,7 @@ Route::middleware('guest')->group(function () {
 
     Route::post('login', [AuthenticatedSessionController::class, 'store'])->middleware(CheckForAdminRegistration::class);
 
-    Route::get('register', [RegisteredUserController::class, 'create'])->middleware(CheckForExistingUsers::class)
-        ->name('register');
 
-    Route::post('register', [RegisteredUserController::class, 'store'])->middleware(CheckForExistingUsers::class);
 
     Route::get('register/admin', [RegisterAdminController::class, 'create'])->middleware(CheckForExistingUsers::class)
         ->name('register.admin');
@@ -55,10 +52,10 @@ Route::middleware('auth')->group(function () {
     //             ->middleware('throttle:6,1')
     //             ->name('verification.send');
 
-    // Route::get('register', [RegisteredUserController::class, 'create'])
-    //     ->name('register');
+    Route::get('register', [RegisteredUserController::class, 'create'])
+        ->name('register');
 
-    // Route::post('register', [RegisteredUserController::class, 'store']);
+    Route::post('register', [RegisteredUserController::class, 'store']);
 
     Route::get('confirm-password', [ConfirmablePasswordController::class, 'show'])
         ->name('password.confirm');

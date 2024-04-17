@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UsersController;
@@ -15,28 +16,17 @@ Route::get('/reports', function () {
     return Inertia::render('Reports');
 })->middleware(['auth', 'verified'])->name('reports');
 
-Route::get('/users', function () {
-    return Inertia::render('Users');
-})->middleware(['auth', 'verified'])->name('users');
+// Route::get('/users', function () {
+//     return Inertia::render('Users');
+// })->middleware(['auth', 'verified'])->name('users');
 
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::resource('users', UsersController::class, [
-        'names' => [ // Custom route names
-            'index' => 'users.index',
-            'create' => 'users.create',
-            'store' => 'users.store',
-            'show' => 'users.show',
-            'edit' => 'users.edit',
-            'update' => 'users.update',
-            'destroy' => 'users.destroy',
-            // ... other route names
-        ]
-    ]);
-    Route::resource('offices', OfficeController::class);
+    Route::resource('users', UsersController::class);
+    Route::get('registration/form/get/offices&roles', [RegisteredUserController::class, 'getOfficesAndRoles'])->name('registration.get.offices&roles');
 });
 
 require __DIR__ . '/auth.php';

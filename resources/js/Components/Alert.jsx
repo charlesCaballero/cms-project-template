@@ -6,7 +6,7 @@ import { WarningIcon } from "@/Icons/AlertIcons/WarningIcon";
 import { Button, Card } from "@nextui-org/react";
 import React, { useEffect, useState } from "react";
 
-const Alert = ({ title, type, variant, message }) => {
+const Alert = ({ title, type, variant, message, isCloseable = true }) => {
     const [show, setShow] = useState(true);
     const [isClosing, setIsClosing] = useState(false); // Track closing state for transition
 
@@ -70,7 +70,11 @@ const Alert = ({ title, type, variant, message }) => {
                         {title && <p className="text-sm font-bold">{title}</p>}
                         <p className="text-xs">{message}</p>
                     </div>
-                    <div className="self-start pl-1">
+                    <div
+                        className={`${
+                            !isCloseable ? "hidden" : ""
+                        } self-start pl-1`}
+                    >
                         <Button
                             isIconOnly
                             variant="light"
@@ -79,6 +83,7 @@ const Alert = ({ title, type, variant, message }) => {
                             size="sm"
                             className="hover:bg-neutral-100/5"
                             onClick={handleClose}
+                            hidden={!isCloseable}
                         >
                             <CloseIcon />
                         </Button>

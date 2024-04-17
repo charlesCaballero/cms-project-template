@@ -59,7 +59,6 @@ const DataTable = ({ searchKey }) => {
     // Watch for changes in searchKey prop and apply the changes to requestData using lodash throttle/debounce
     useEffect(() => {
         const debounceSearch = debounce(() => {
-            console.log("searchKey: " + searchKey);
             setRequestData((prevState) => ({
                 ...prevState,
                 search_key: searchKey,
@@ -79,7 +78,7 @@ const DataTable = ({ searchKey }) => {
     }, [requestData]);
 
     const fetchUsers = () => {
-        router.get("users/", requestData, {
+        router.get(route("users.index"), requestData, {
             only: ["users"],
             preserveState: true,
             preserveScroll: true,
